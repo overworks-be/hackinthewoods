@@ -70,10 +70,11 @@ public class GameEngine : MonoBehaviour
 
     public void startGame()
     {
-        timerOn = true; 
+        timerOn = true;
     }
 
-    public void pauseGame() {
+    public void pauseGame()
+    {
         timerOn = false;
     }
 
@@ -83,13 +84,32 @@ public class GameEngine : MonoBehaviour
         timerOn = false;
         // check cell is mine
         // 3 minutes time exceeded
-        return reason; 
+        return reason;
     }
 
-    private void win() {
-        timerOn = false; 
+    private void win()
+    {
+        timerOn = false;
     }
-  
+
+
+    public void revealCell(float xF, float yF)
+    {
+        int x = (int)xF;
+        int y = (int)yF;
+        grid.Cells[y][x].IsRevealead = true;
+        checkCell(xF, yF);
+    }
+
+    public bool isCellRevealed(float xF, float yF)
+    {
+        int x = (int)xF;
+        int y = (int)yF;
+
+        return grid.Cells[y][x].IsRevealead;
+
+    }
+
 
     internal Vector3 getPosition(int x, int y)
     {
