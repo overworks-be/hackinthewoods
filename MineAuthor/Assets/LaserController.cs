@@ -72,7 +72,7 @@ public class LaserController : MonoBehaviour {
                         {
                             GameObject MineTextindicator = Instantiate(IndicatorPrefab, Vector3.zero, Quaternion.identity);
                             MineTextindicator.transform.GetComponent<TextMesh>().transform.position = IndicatorPosition;
-                            //MineTextindicator.transform.GetComponent<TextMesh>().transform.rotation = new Vector3(90.0, -90.0, 0.0);
+                            MineTextindicator.transform.GetComponent<TextMesh>().transform.Rotate(new Vector3(90.0f, -90.0f, 0.0f));
                             MineTextindicator.transform.GetComponent<TextMesh>().text = minevalue.ToString();
                         }
                     }
