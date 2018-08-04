@@ -31,12 +31,12 @@ public class Player : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            x--;
+            x++;
             updatePosition();
         }
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            x++;
+            x--;
             updatePosition();
         }
     }

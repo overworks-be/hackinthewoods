@@ -5,28 +5,28 @@ using UnityEngine;
 using Assets;
 using System;
 using UnityEngine.UI;
+using Assets.Scripts.GameBoard;
 
 public class GameEngine : MonoBehaviour
 {
-    #region Fields
-    private Assets.Grid grid;
-    private Cell[][] cells;
-    private int width;
-    private int height;
-    public Vector2 cellSize;
-    public float timer;
-    public bool timerOn;
+    #region Public Fields
     public Text timerText;
+    public Vector2 cellSize;
+    #endregion
+
+    #region Private Fields
+    private Assets.Grid grid;
+    private float timer;
+    private bool timerOn;
     #endregion
 
     #region Unity Methods
     // Use this for initialization
     void Start()
     {
-        this.buildGrid(20, 45, DataMap.map);
-        timer = 180;
-        timerText.text = timer.ToString();
-        timerOn = true;
+        grid = GridEngine.buildGrid(20, 45, DataMap.map);
+        Debug.Log(grid.toString());
+        initTimer(180);
     }
 
     // Update is called once per frame
@@ -50,151 +50,46 @@ public class GameEngine : MonoBehaviour
         if (timer <= 0)
         {
             timerOn = false;
-            gameOver("Exceeded Time ");
+            gameOver("Exceeded Time");
         }
 
         timerText.text = ((int)timer).ToString();
     }
 
-
     #endregion
 
-    #region Grid Init
-
-    private void buildGrid(int width, int height, int[][] dataMap)
+    #region Init
+    private void initTimer(float time)
     {
-        this.width = width;
-        this.height = height;
-        cells = new Cell[height][];
-        for (int i = 0; i < height; i++)
-        {
-            cells[i] = new Cell[width];
-        }
-        populateCells(dataMap);
-        setGridCells();
-    }
-
-    private void setGridCells()
-    {
-        grid = new Assets.Grid(width, height, cells);
-        Debug.Log(grid.toString());
-    }
-
-    private void populateCells(int[][] dataMap)
-    {
-        for (int i = 0; i < height; i++)
-        {
-            for (int j = 0; j < width; j++)
-            {
-                Cell cell = new Cell();
-                if (dataMap[i][j] == 1)
-                {
-                    cell.IsBomb = true;
-                    setAdjacentMine(dataMap, i, j);
-                }
-                cells[i][j] = cell;
-            }
-        }
-
-        for (int i = 0; i < height; i++)
-        {
-            for (int j = 0; j < width; j++)
-            {
-                if (dataMap[i][j] < 0)
-                {
-                    cells[i][j].AdjacentBomb = Math.Abs(dataMap[i][j]);
-                }
-            }
-        }
-    }
-
-    private void setAdjacentMine(int[][] dataMap, int i, int j)
-    {
-        if (j + 1 <= width - 1)
-        {
-            if (dataMap[i][j + 1] != 1)
-            {
-                dataMap[i][j + 1]--;
-            }
-        }
-
-        if (j - 1 >= 0)
-        {
-            if (dataMap[i][j - 1] != 1)
-            {
-                dataMap[i][j - 1]--;
-            }
-        }
-
-        if (i + 1 <= height - 1)
-        {
-            if (dataMap[i + 1][j] != 1)
-            {
-                dataMap[i + 1][j]--;
-            }
-
-        }
-
-        if (i + 1 <= height - 1 && j - 1 >= 0)
-        {
-            if (dataMap[i + 1][j - 1] != 1)
-            {
-                dataMap[i + 1][j - 1]--;
-            }
-        }
-
-        if (i + 1 <= height - 1 && j + 1 <= width - 1)
-        {
-            if (dataMap[i + 1][j + 1] != 1)
-            {
-                dataMap[i + 1][j + 1]--;
-            }
-        }
-
-        if (i - 1 >= 0)
-        {
-            if (dataMap[i - 1][j] != 1)
-            {
-                dataMap[i - 1][j]--;
-            }
-        }
-
-        if (i - 1 >= 0 && j - 1 >= 0)
-        {
-            if (dataMap[i - 1][j - 1] != 1)
-            {
-                dataMap[i - 1][j - 1]--;
-            }
-        }
-
-        if (i - 1 >= 0 && j + 1 <= width - 1)
-        {
-            if (dataMap[i - 1][j + 1] != 1)
-            {
-                dataMap[i - 1][j + 1]--;
-            }
-        }
-    }
-
-    #endregion
-
-    private void gameOver(string v)
-    {
-        // game over 
-        // launched when:
-        //  - checkCell Mine
-        //  - 3 Minutes time exceeeded
-    }
-
-    public void launchTimer()
-    {
-        timerOn = true;
-    }
-
-    public void stopTimer()
-    {
+        timer = time;
+        timerText.text = time.ToString();
         timerOn = false;
     }
+    #endregion
+
+
+    public void startGame()
+    {
+        timerOn = true; 
+    }
+
+    public void pauseGame() {
+        timerOn = false;
+    }
+
+
+    private String gameOver(string reason)
+    {
+        timerOn = false;
+        // check cell is mine
+        // 3 minutes time exceeded
+        return reason; 
+    }
+
+    private void win() {
+        timerOn = false; 
+    }
+  
 
     internal Vector3 getPosition(int x, int y)
     {
@@ -206,7 +101,7 @@ public class GameEngine : MonoBehaviour
         int x = (int)xF;
         int y = (int)yF;
 
-        if (grid.cells[y][x].IsBomb)
+        if (grid.Cells[y][x].IsBomb)
         {
             Debug.Log("BOUM!");
             gameOver("Mine Detonation");
@@ -214,8 +109,8 @@ public class GameEngine : MonoBehaviour
         }
         else
         {
-            Debug.Log("near bomb: " + grid.cells[y][x].AdjacentBomb);
-            return grid.cells[y][x].AdjacentBomb;
+            Debug.Log("near bomb: " + grid.Cells[y][x].AdjacentBomb);
+            return grid.Cells[y][x].AdjacentBomb;
         }
     }
 
