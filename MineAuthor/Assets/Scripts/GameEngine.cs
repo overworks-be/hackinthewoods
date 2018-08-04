@@ -23,7 +23,7 @@ public class GameEngine : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        this.buildGrid(5, 6, DataMap.map);
+        this.buildGrid(20, 45, DataMap.map);
         timer = 180;
         timerText.text = timer.ToString();
         timerOn = true;
