@@ -4,21 +4,60 @@ using System.IO;
 using UnityEngine;
 using Assets;
 using System;
+using UnityEngine.UI;
 
 public class GameEngine : MonoBehaviour
 {
-
+    #region Fields
     private Assets.Grid grid;
     private Cell[][] cells;
     private int width;
     private int height;
     public Vector2 cellSize;
+    public float timer;
+    public bool timerOn;
+    public Text timerText;
+    #endregion
 
+    #region Unity Methods
     // Use this for initialization
     void Start()
     {
         this.buildGrid(5, 6, DataMap.map);
+        timer = 180;
+        timerText.text = timer.ToString();
+        timerOn = true;
     }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            timerOn = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            timerOn = true;
+        }
+
+        if (timerOn)
+        {
+            timer -= Time.deltaTime;
+        }
+
+        if (timer <= 0)
+        {
+            timerOn = false;
+            gameOver("Exceeded Time ");
+        }
+
+        timerText.text = ((int)timer).ToString();
+    }
+
+
+    #endregion
 
     #region Grid Init
 
@@ -139,12 +178,28 @@ public class GameEngine : MonoBehaviour
 
     #endregion
 
+    private void gameOver(string v)
+    {
+        // game over 
+        // launched when:
+        //  - checkCell Mine
+        //  - 3 Minutes time exceeeded
+    }
+
+    public void launchTimer()
+    {
+        timerOn = true;
+    }
+
+    public void stopTimer()
+    {
+        timerOn = false;
+    }
+
     internal Vector3 getPosition(int x, int y)
     {
         return new Vector3(x * cellSize.x, 0.0F, y * cellSize.y);
     }
-
-
 
     public int checkCell(float xF, float yF)
     {
@@ -154,6 +209,7 @@ public class GameEngine : MonoBehaviour
         if (grid.cells[y][x].IsBomb)
         {
             Debug.Log("BOUM!");
+            gameOver("Mine Detonation");
             return -1;
         }
         else
@@ -162,15 +218,5 @@ public class GameEngine : MonoBehaviour
             return grid.cells[y][x].AdjacentBomb;
         }
     }
-
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-
-
 
 }
