@@ -5,12 +5,20 @@ using System.Text;
 
 namespace Assets
 {
-    class Cell
+    public class Cell
     {
 
         #region Fields
-        private Boolean isBomb = false;
-        private int adjacentBomb = 0;
+        private Boolean isBomb;
+        private int adjacentBomb;
+        #endregion
+
+        #region Constructor
+        public Cell()
+        {
+            this.isBomb = false;
+            this.adjacentBomb = 0;
+        }
         #endregion
 
         #region Properties
@@ -28,10 +36,13 @@ namespace Assets
         #endregion
 
         #region Methods
-        public String toString() {
-            if (isBomb) {
+        public String toString()
+        {
+            if (isBomb)
+            {
                 return "Bomb";
-            } else
+            }
+            else
             {
                 return "adjacentbomb: " + adjacentBomb;
             }
