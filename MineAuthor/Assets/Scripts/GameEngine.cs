@@ -4,173 +4,114 @@ using System.IO;
 using UnityEngine;
 using Assets;
 using System;
+using UnityEngine.UI;
+using Assets.Scripts.GameBoard;
 
 public class GameEngine : MonoBehaviour
 {
-
-    private Assets.Grid grid;
-    private Cell[][] cells;
-    private int width;
-    private int height;
+    #region Public Fields
+    public Text timerText;
     public Vector2 cellSize;
+    #endregion
 
+    #region Private Fields
+    private Assets.Grid grid;
+    private float timer;
+    private bool timerOn;
+    #endregion
+
+    #region Unity Methods
     // Use this for initialization
     void Start()
     {
-        this.buildGrid(5, 6, DataMap.map);
-    }
-
-    #region Grid Init
-
-    private void buildGrid(int width, int height, int[][] dataMap)
-    {
-        this.width = width;
-        this.height = height;
-        cells = new Cell[height][];
-        for (int i = 0; i < height; i++)
-        {
-            cells[i] = new Cell[width];
-        }
-        populateCells(dataMap);
-        setGridCells();
-    }
-
-    private void setGridCells()
-    {
-        grid = new Assets.Grid(width, height, cells);
+        grid = GridEngine.buildGrid(20, 45, DataMap.map);
         Debug.Log(grid.toString());
+        initTimer(180);
     }
 
-    private void populateCells(int[][] dataMap)
+    // Update is called once per frame
+    void Update()
     {
-        for (int i = 0; i < height; i++)
+        if (Input.GetKeyDown(KeyCode.S))
         {
-            for (int j = 0; j < width; j++)
-            {
-                Cell cell = new Cell();
-                if (dataMap[i][j] == 1)
-                {
-                    cell.IsBomb = true;
-                    setAdjacentMine(dataMap, i, j);
-                }
-                cells[i][j] = cell;
-            }
+            timerOn = false;
         }
 
-        for (int i = 0; i < height; i++)
+        if (Input.GetKeyDown(KeyCode.D))
         {
-            for (int j = 0; j < width; j++)
-            {
-                if (dataMap[i][j] < 0)
-                {
-                    cells[i][j].AdjacentBomb = Math.Abs(dataMap[i][j]);
-                }
-            }
-        }
-    }
-
-    private void setAdjacentMine(int[][] dataMap, int i, int j)
-    {
-        if (j + 1 <= width - 1)
-        {
-            if (dataMap[i][j + 1] != 1)
-            {
-                dataMap[i][j + 1]--;
-            }
+            timerOn = true;
         }
 
-        if (j - 1 >= 0)
+        if (timerOn)
         {
-            if (dataMap[i][j - 1] != 1)
-            {
-                dataMap[i][j - 1]--;
-            }
+            timer -= Time.deltaTime;
         }
 
-        if (i + 1 <= height - 1)
+        if (timer <= 0)
         {
-            if (dataMap[i + 1][j] != 1)
-            {
-                dataMap[i + 1][j]--;
-            }
-
+            timerOn = false;
+            gameOver("Exceeded Time");
         }
 
-        if (i + 1 <= height - 1 && j - 1 >= 0)
-        {
-            if (dataMap[i + 1][j - 1] != 1)
-            {
-                dataMap[i + 1][j - 1]--;
-            }
-        }
-
-        if (i + 1 <= height - 1 && j + 1 <= width - 1)
-        {
-            if (dataMap[i + 1][j + 1] != 1)
-            {
-                dataMap[i + 1][j + 1]--;
-            }
-        }
-
-        if (i - 1 >= 0)
-        {
-            if (dataMap[i - 1][j] != 1)
-            {
-                dataMap[i - 1][j]--;
-            }
-        }
-
-        if (i - 1 >= 0 && j - 1 >= 0)
-        {
-            if (dataMap[i - 1][j - 1] != 1)
-            {
-                dataMap[i - 1][j - 1]--;
-            }
-        }
-
-        if (i - 1 >= 0 && j + 1 <= width - 1)
-        {
-            if (dataMap[i - 1][j + 1] != 1)
-            {
-                dataMap[i - 1][j + 1]--;
-            }
-        }
+        timerText.text = ((int)timer).ToString();
     }
 
     #endregion
+
+    #region Init
+    private void initTimer(float time)
+    {
+        timer = time;
+        timerText.text = time.ToString();
+        timerOn = false;
+    }
+    #endregion
+
+
+    public void startGame()
+    {
+        timerOn = true; 
+    }
+
+    public void pauseGame() {
+        timerOn = false;
+    }
+
+
+    private String gameOver(string reason)
+    {
+        timerOn = false;
+        // check cell is mine
+        // 3 minutes time exceeded
+        return reason; 
+    }
+
+    private void win() {
+        timerOn = false; 
+    }
+  
 
     internal Vector3 getPosition(int x, int y)
     {
         return new Vector3(x * cellSize.x, 0.0F, y * cellSize.y);
     }
 
-
-
     public int checkCell(float xF, float yF)
     {
         int x = (int)xF;
         int y = (int)yF;
 
-        if (grid.cells[y][x].IsBomb)
+        if (grid.Cells[y][x].IsBomb)
         {
             Debug.Log("BOUM!");
+            gameOver("Mine Detonation");
             return -1;
         }
         else
         {
-            Debug.Log("near bomb: " + grid.cells[y][x].AdjacentBomb);
-            return grid.cells[y][x].AdjacentBomb;
+            Debug.Log("near bomb: " + grid.Cells[y][x].AdjacentBomb);
+            return grid.Cells[y][x].AdjacentBomb;
         }
     }
-
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-
-
 
 }

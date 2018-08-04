@@ -5,16 +5,34 @@ using System.Text;
 
 namespace Assets
 {
-    class Grid
+    public class Grid
     {
-
         #region Fields
-        public int width;
-        public int height;
-        public Cell[][] cells;
+        private int width;
+        private int height;
+        private Cell[][] cells;
         #endregion
 
-        
+        #region Properties
+        public int Width
+        {
+            get { return width; }
+            set { width = value; }
+        }
+
+        public int Height
+        {
+            get { return height; }
+            set { height = value; }
+        }
+
+        public Cell[][] Cells
+        {
+            get { return cells; }
+            set { cells = value; }
+        }
+        #endregion
+   
         #region Constructor
         public Grid(int width, int height, Cell[][] cells)
         {
@@ -36,6 +54,10 @@ namespace Assets
                     if (currentCell.IsBomb)
                     {
                         current += "x";
+                    }
+                    else if(currentCell.AdjacentBomb == 0)
+                    {
+                        current += ".";
                     }
                     else {
                         current += currentCell.AdjacentBomb;
