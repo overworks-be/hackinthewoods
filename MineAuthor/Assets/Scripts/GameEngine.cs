@@ -4,6 +4,7 @@ using System.IO;
 using UnityEngine;
 using Assets;
 using System;
+using UnityEngine.UI;
 
 public class GameEngine : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class GameEngine : MonoBehaviour
     public Vector2 cellSize;
     public float timer;
     public bool timerOn;
+    public Text timerText;
     #endregion
 
     #region Unity Methods
@@ -23,7 +25,8 @@ public class GameEngine : MonoBehaviour
     {
         this.buildGrid(5, 6, DataMap.map);
         timer = 180;
-        timerOn = false;
+        timerText.text = timer.ToString();
+        timerOn = true;
     }
 
     // Update is called once per frame
@@ -38,21 +41,21 @@ public class GameEngine : MonoBehaviour
         {
             timerOn = true;
         }
-        timer -= Time.deltaTime;
 
-        if (timer <= 0) {
+        if (timerOn)
+        {
+            timer -= Time.deltaTime;
+        }
+
+        if (timer <= 0)
+        {
             timerOn = false;
             gameOver("Exceeded Time ");
         }
+
+        timerText.text = ((int)timer).ToString();
     }
 
-    private void gameOver(string v)
-    {
-        // game over 
-        // launched when:
-        //  - checkCell Mine
-        //  - 3 Minutes time exceeeded
-    }
 
     #endregion
 
@@ -174,6 +177,14 @@ public class GameEngine : MonoBehaviour
     }
 
     #endregion
+
+    private void gameOver(string v)
+    {
+        // game over 
+        // launched when:
+        //  - checkCell Mine
+        //  - 3 Minutes time exceeeded
+    }
 
     public void launchTimer()
     {
