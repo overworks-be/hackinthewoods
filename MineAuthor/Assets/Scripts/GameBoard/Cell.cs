@@ -11,17 +11,28 @@ namespace Assets
         #region Fields
         private Boolean isBomb;
         private int adjacentBomb;
+        private bool isRevealed;
         #endregion
+
+
+
 
         #region Constructor
         public Cell()
         {
             this.isBomb = false;
             this.adjacentBomb = 0;
+            this.isRevealed = false; 
         }
         #endregion
 
         #region Properties
+        public bool IsRevealead
+        {
+            get { return isRevealed; }
+            set { isRevealed = value; }
+        }
+
         public Boolean IsBomb
         {
             get { return isBomb; }
