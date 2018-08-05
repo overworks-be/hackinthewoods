@@ -47,19 +47,19 @@ namespace Assets.Scripts.GameBoard
                 }
             }
 
-            cells[29][10].AdjacentBomb = -2;
-            cells[29][11].AdjacentBomb = -2;
+            cells[31][10].AdjacentBomb = -2;
+            cells[31][11].AdjacentBomb = -2;
 
-            cells[28][9].AdjacentBomb = -2;
-            cells[28][10].AdjacentBomb = -2;
-            cells[28][11].AdjacentBomb = -2;
-            cells[28][12].AdjacentBomb = -2;
-            cells[29][12].AdjacentBomb = -2;
-            cells[30][12].AdjacentBomb = -2;
-            cells[30][11].AdjacentBomb = -2;
-            cells[30][10].AdjacentBomb = -2;
             cells[30][9].AdjacentBomb = -2;
-            cells[29][9].AdjacentBomb = -2;
+            cells[30][10].AdjacentBomb = -2;
+            cells[30][11].AdjacentBomb = -2;
+            cells[30][12].AdjacentBomb = -2;
+            cells[31][12].AdjacentBomb = -2;
+            cells[32][12].AdjacentBomb = -2;
+            cells[32][11].AdjacentBomb = -2;
+            cells[32][10].AdjacentBomb = -2;
+            cells[32][9].AdjacentBomb = -2;
+            cells[31][9].AdjacentBomb = -2;
 
         }
 
