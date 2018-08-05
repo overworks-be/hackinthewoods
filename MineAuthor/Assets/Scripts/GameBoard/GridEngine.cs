@@ -46,7 +46,23 @@ namespace Assets.Scripts.GameBoard
                     }
                 }
             }
+
+            cells[29][10].AdjacentBomb = -2;
+            cells[29][11].AdjacentBomb = -2;
+
+            cells[28][9].AdjacentBomb = -2;
+            cells[28][10].AdjacentBomb = -2;
+            cells[28][11].AdjacentBomb = -2;
+            cells[28][12].AdjacentBomb = -2;
+            cells[29][12].AdjacentBomb = -2;
+            cells[30][12].AdjacentBomb = -2;
+            cells[30][11].AdjacentBomb = -2;
+            cells[30][10].AdjacentBomb = -2;
+            cells[30][9].AdjacentBomb = -2;
+            cells[29][9].AdjacentBomb = -2;
+
         }
+
 
         private static void setAdjacentMine(int i, int j, int[][] dataMap, int width, int height)
         {

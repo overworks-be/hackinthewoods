@@ -81,7 +81,7 @@ public class GameEngine : MonoBehaviour
 
     private String gameOver(string reason)
     {
-        timerOn = false;
+        // timerOn = false;
         // check cell is mine
         // 3 minutes time exceeded
         return reason;
