@@ -27,6 +27,7 @@ public class GameEngine : MonoBehaviour
         grid = GridEngine.buildGrid(20, 45, DataMap.map);
         Debug.Log(grid.toString());
         initTimer(180);
+        timerOn = true;
     }
 
     // Update is called once per frame

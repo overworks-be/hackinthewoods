@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.WSA.Input;
+using UnityEngine.SceneManagement;
 
 public class LaserController : MonoBehaviour {
     public Collider terrainCollider;
     public Transform ParentTransform;
     public GameObject IndicatorPrefab;
+    public GameObject ExplosionPrefab;
     public bool SelectWasPressed = false;
     
 
-    GameEngine gameEngine;
+    public GameEngine gameEngine;
 
     // Use this for initialization
     void Start () {
@@ -55,25 +57,34 @@ public class LaserController : MonoBehaviour {
                 if (terrainCollider.Raycast(ray, out raycastHit, 10))
                 {
                     var cursorPos = raycastHit.point;
-                    Debug.Log("Collision X = " + Mathf.Floor(-cursorPos.x) + " Z = " + Mathf.Floor(cursorPos.z));
+                    Debug.Log("Collision X = " + Mathf.Round(cursorPos.x) + " Z = " + Mathf.Round(cursorPos.z));
 
+                    
                     IndicatorPosition = getCellCenterPosition(cursorPos);
+                    Debug.Log("Centres = " + IndicatorPosition);
 
-                    int minevalue = getCellMineNeighbourValue(cursorPos);
-                    bool visible = getCellIndicatorVisibility(cursorPos);
+                    int minevalue = getCellMineNeighbourValue(IndicatorPosition);
+                    bool visible = getCellIndicatorVisibility(IndicatorPosition);
                     if (!visible)
                     {
                         if (minevalue == -1)
                         {
-                            // Show explosion
-                            Debug.Log("Explosion");
+
+                            GameObject explosion = Instantiate(ExplosionPrefab, Vector3.zero, Quaternion.identity);
+                            explosion.transform.position = IndicatorPosition;                          
+                        }
+                        else if (minevalue == -2)
+                        {
+                            SceneManager.LoadScene("LooseScene");
                         }
                         else
                         {
                             GameObject MineTextindicator = Instantiate(IndicatorPrefab, Vector3.zero, Quaternion.identity);
-                            MineTextindicator.transform.GetComponent<TextMesh>().transform.position = IndicatorPosition;
                             MineTextindicator.transform.GetComponent<TextMesh>().transform.Rotate(new Vector3(90.0f, -90.0f, 0.0f));
+                            MineTextindicator.transform.GetComponent<TextMesh>().transform.position = IndicatorPosition;
                             MineTextindicator.transform.GetComponent<TextMesh>().text = minevalue.ToString();
+
+                            gameEngine.revealCell(IndicatorPosition.z, -IndicatorPosition.x);
                         }
                     }
                     
@@ -89,20 +100,18 @@ public class LaserController : MonoBehaviour {
 
     public Vector3 getCellCenterPosition(Vector3 initialPosition)
     {
-        return new Vector3(Mathf.Floor(initialPosition.x)-0.5f, initialPosition.y + 0.5f, Mathf.Floor(initialPosition.z) + 0.5f);
+        return new Vector3(Mathf.Floor(initialPosition.x)+0.5f, initialPosition.y, Mathf.Floor(initialPosition.z)+0.5f);
 
     }
 
     public int getCellMineNeighbourValue(Vector3 initialPosition)
     {
-        // Ask GameEngine
-        return 0;
+        return gameEngine.checkCell(initialPosition.z, -initialPosition.x);
     }
 
     public bool getCellIndicatorVisibility(Vector3 initialPosition)
     {
-        // Ask GameEngine
-        return false;
+        return gameEngine.isCellRevealed(initialPosition.z, -initialPosition.x);
     }
 
     // Update is called once per frame
