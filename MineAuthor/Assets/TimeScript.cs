@@ -11,7 +11,7 @@ public class TimeScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Time.timeSinceLevelLoad > 15)
+		if (Time.timeSinceLevelLoad > 5)
         {
             SceneManager.LoadScene("MainScene");
         }

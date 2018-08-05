@@ -75,7 +75,7 @@ public class LaserController : MonoBehaviour {
                         }
                         else if (minevalue == -2)
                         {
-                            SceneManager.LoadScene("LooseScene");
+                            SceneManager.LoadScene("WinScene");
                         }
                         else
                         {
