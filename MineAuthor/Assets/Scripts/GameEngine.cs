@@ -24,7 +24,31 @@ public class GameEngine : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        grid = GridEngine.buildGrid(20, 45, DataMap.map);
+        List<Assets.Scripts.Data.Position> positions = new List<Assets.Scripts.Data.Position>();
+        positions.Add(new Assets.Scripts.Data.Position(7, 32));
+        positions.Add(new Assets.Scripts.Data.Position(9, 30));
+        positions.Add(new Assets.Scripts.Data.Position(12, 28));
+        positions.Add(new Assets.Scripts.Data.Position(10, 26));
+        positions.Add(new Assets.Scripts.Data.Position(6, 24));
+        positions.Add(new Assets.Scripts.Data.Position(11, 23));
+        positions.Add(new Assets.Scripts.Data.Position(14, 23));
+        positions.Add(new Assets.Scripts.Data.Position(9, 21));
+        positions.Add(new Assets.Scripts.Data.Position(5, 22));
+        positions.Add(new Assets.Scripts.Data.Position(13, 22));
+        positions.Add(new Assets.Scripts.Data.Position(10, 20));
+        positions.Add(new Assets.Scripts.Data.Position(8, 18));
+        positions.Add(new Assets.Scripts.Data.Position(10, 15));
+        positions.Add(new Assets.Scripts.Data.Position(13, 12));
+        positions.Add(new Assets.Scripts.Data.Position(16, 11));
+        positions.Add(new Assets.Scripts.Data.Position(10, 9));
+        positions.Add(new Assets.Scripts.Data.Position(7, 6));
+        positions.Add(new Assets.Scripts.Data.Position(14, 4));
+
+
+        int[][] filler =  Assets.Scripts.Data.DataSeed.getMap(20, 45, positions);
+
+
+        grid = GridEngine.buildGrid(20, 45, filler);
         Debug.Log(grid.toString());
         initTimer(180);
         timerOn = true;

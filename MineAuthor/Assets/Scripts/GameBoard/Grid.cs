@@ -57,7 +57,7 @@ namespace Assets
                     }
                     else if(currentCell.AdjacentBomb == 0)
                     {
-                        current += ".";
+                        current += " ";
                     }
                     else {
                         current += currentCell.AdjacentBomb;
