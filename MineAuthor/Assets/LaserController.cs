@@ -71,7 +71,7 @@ public class LaserController : MonoBehaviour {
                         {
 
                             GameObject explosion = Instantiate(ExplosionPrefab, Vector3.zero, Quaternion.identity);
-                            explosion.transform.position = IndicatorPosition;                          
+                            explosion.transform.position = IndicatorPosition;
                         }
                         else if (minevalue == -2)
                         {
