@@ -1857,7 +1857,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4541142303025740, guid: d29bc40b7f3df26479d6a0aac211c355, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4541142303025740, guid: d29bc40b7f3df26479d6a0aac211c355, type: 2}
       propertyPath: m_LocalPosition.z
@@ -5576,6 +5576,12 @@ Transform:
   m_Father: {fileID: 714016733}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1310668635 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114812681035175298, guid: d29bc40b7f3df26479d6a0aac211c355,
+    type: 2}
+  m_PrefabInternal: {fileID: 425757061}
+  m_Script: {fileID: 11500000, guid: 1bc175d33f66e6647aabac1b65e7e632, type: 3}
 --- !u!1 &1311985577
 GameObject:
   m_ObjectHideFlags: 0
@@ -5787,6 +5793,7 @@ MonoBehaviour:
   ExplosionPrefab: {fileID: 1776905201252160, guid: e0bc4d1c69eb6a24bb3a9beb985560f5,
     type: 2}
   SelectWasPressed: 0
+  teleport: {fileID: 1310668635}
   gameEngine: {fileID: 47817046}
 --- !u!1 &1350017806
 GameObject:

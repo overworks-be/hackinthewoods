@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.WSA.Input;
 using UnityEngine.SceneManagement;
+using HoloToolkit.Unity.InputModule;
 
 public class LaserController : MonoBehaviour {
     public Collider terrainCollider;
@@ -10,7 +11,8 @@ public class LaserController : MonoBehaviour {
     public GameObject IndicatorPrefab;
     public GameObject ExplosionPrefab;
     public bool SelectWasPressed = false;
-    
+    public MixedRealityTeleport teleport;
+
 
     public GameEngine gameEngine;
 
@@ -71,7 +73,9 @@ public class LaserController : MonoBehaviour {
                         {
 
                             GameObject explosion = Instantiate(ExplosionPrefab, Vector3.zero, Quaternion.identity);
-                            explosion.transform.position = IndicatorPosition;                          
+                            explosion.transform.position = IndicatorPosition;
+                           
+                            teleport.SetWorldPosition(new Vector3(-1.62f,3f,9.01f));
                         }
                         else if (minevalue == -2)
                         {

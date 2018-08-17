@@ -47,8 +47,8 @@ namespace Assets.Scripts.GameBoard
                 }
             }
 
+            cells[32][10].AdjacentBomb = -2;
             cells[32][11].AdjacentBomb = -2;
-            cells[32][12].AdjacentBomb = -2;
 
         }
 

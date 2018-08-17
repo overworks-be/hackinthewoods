@@ -25,33 +25,41 @@ public class GameEngine : MonoBehaviour
     void Start()
     {
         List<Assets.Scripts.Data.Position> positions = new List<Assets.Scripts.Data.Position>();
-        positions.Add(new Assets.Scripts.Data.Position(7, 32));
-        positions.Add(new Assets.Scripts.Data.Position(9, 30));
-        positions.Add(new Assets.Scripts.Data.Position(12, 28));
-        positions.Add(new Assets.Scripts.Data.Position(10, 26));
-        positions.Add(new Assets.Scripts.Data.Position(6, 24));
-        positions.Add(new Assets.Scripts.Data.Position(11, 23));
-        positions.Add(new Assets.Scripts.Data.Position(14, 23));
-        positions.Add(new Assets.Scripts.Data.Position(9, 21));
-        positions.Add(new Assets.Scripts.Data.Position(5, 22));
-        positions.Add(new Assets.Scripts.Data.Position(13, 22));
-        positions.Add(new Assets.Scripts.Data.Position(10, 20));
-        positions.Add(new Assets.Scripts.Data.Position(8, 18));
-        positions.Add(new Assets.Scripts.Data.Position(10, 15));
-        positions.Add(new Assets.Scripts.Data.Position(13, 12));
-        positions.Add(new Assets.Scripts.Data.Position(16, 11));
-        positions.Add(new Assets.Scripts.Data.Position(10, 9));
-        positions.Add(new Assets.Scripts.Data.Position(7, 6));
-        positions.Add(new Assets.Scripts.Data.Position(14, 4));
+        positions.Add(new Assets.Scripts.Data.Position(4, 20));
+        positions.Add(new Assets.Scripts.Data.Position(5, 24));
+        positions.Add(new Assets.Scripts.Data.Position(6, 4));
+        positions.Add(new Assets.Scripts.Data.Position(6, 32)); 
+        positions.Add(new Assets.Scripts.Data.Position(7, 16));
+        positions.Add(new Assets.Scripts.Data.Position(8, 21));
+        positions.Add(new Assets.Scripts.Data.Position(8, 30)); 
+        positions.Add(new Assets.Scripts.Data.Position(9, 13));
+        positions.Add(new Assets.Scripts.Data.Position(9, 7));
+        positions.Add(new Assets.Scripts.Data.Position(9, 18));
+        positions.Add(new Assets.Scripts.Data.Position(9, 26));
+        positions.Add(new Assets.Scripts.Data.Position(10, 23));
+        positions.Add(new Assets.Scripts.Data.Position(11, 28));
+        positions.Add(new Assets.Scripts.Data.Position(12, 20));
+        positions.Add(new Assets.Scripts.Data.Position(13, 2));
+        positions.Add(new Assets.Scripts.Data.Position(13, 23));
+        positions.Add(new Assets.Scripts.Data.Position(12, 10));
+        positions.Add(new Assets.Scripts.Data.Position(15, 9));
 
+        positions.Add(new Assets.Scripts.Data.Position(5,12 ));
+        positions.Add(new Assets.Scripts.Data.Position(5,13 ));
+        positions.Add(new Assets.Scripts.Data.Position(5,28 ));
+        positions.Add(new Assets.Scripts.Data.Position(6,19 ));
+        positions.Add(new Assets.Scripts.Data.Position(7,10 ));
+        positions.Add(new Assets.Scripts.Data.Position(7,24 ));
+        positions.Add(new Assets.Scripts.Data.Position(9, 16));
+        positions.Add(new Assets.Scripts.Data.Position(9,21 ));
+        positions.Add(new Assets.Scripts.Data.Position(10,13 ));
 
+        // 5 min = 300s
         int[][] filler =  Assets.Scripts.Data.DataSeed.getMap(20, 45, positions);
-
-
         grid = GridEngine.buildGrid(20, 45, filler);
         Debug.Log(grid.toString());
-        initTimer(180);
-        timerOn = true;
+        initTimer(0);
+        timerOn = false;
     }
 
     // Update is called once per frame
@@ -67,9 +75,14 @@ public class GameEngine : MonoBehaviour
             timerOn = true;
         }
 
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            timer = 0;
+        }
+
         if (timerOn)
         {
-            timer -= Time.deltaTime;
+            timer += Time.deltaTime;
         }
 
         if (timer <= 0)
@@ -155,6 +168,13 @@ public class GameEngine : MonoBehaviour
         else
         {
             Debug.Log("near bomb: " + grid.Cells[y][x].AdjacentBomb);
+            if(grid.Cells[y][x].AdjacentBomb == -2)
+            {
+
+                Debug.Log("Time: " + timer);
+            }
+
+
             return grid.Cells[y][x].AdjacentBomb;
         }
     }
