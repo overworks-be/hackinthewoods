@@ -99,7 +99,31 @@ public class GameEngine : MonoBehaviour
 
     public bool isCellRevealed(float x, float y)
     {
+<<<<<<< HEAD
+        int x = (int)xF;
+        int y = (int)yF;
+
+        if (grid.Cells[y][x].IsBomb)
+        {
+            Debug.Log("BOUM!");
+            gameOver("Mine Detonation");
+            return -1;
+        }
+        else
+        {
+            //Debug.Log("near bomb: " + grid.Cells[y][x].AdjacentBomb);
+            if(grid.Cells[y][x].AdjacentBomb == -2)
+            {
+
+                Debug.Log("Time: " + timer);
+            }
+
+
+            return grid.Cells[y][x].AdjacentBomb;
+        }
+=======
         return this.getCellState(x, y) == CellState.Revealed;
+>>>>>>> 3a8263cbe9acf65405bf6d9c52cf2d1c48288904
     }
 
 }
