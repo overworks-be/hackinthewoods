@@ -167,7 +167,7 @@ public class GameEngine : MonoBehaviour
         }
         else
         {
-            Debug.Log("near bomb: " + grid.Cells[y][x].AdjacentBomb);
+            //Debug.Log("near bomb: " + grid.Cells[y][x].AdjacentBomb);
             if(grid.Cells[y][x].AdjacentBomb == -2)
             {
 
