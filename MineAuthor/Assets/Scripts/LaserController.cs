@@ -120,7 +120,7 @@ public class LaserController : MonoBehaviour {
                             MineTextindicator.transform.GetComponent<TextMesh>().transform.position = IndicatorPosition;
                             MineTextindicator.transform.GetComponent<TextMesh>().text = minevalue.ToString();
 
-                            gameEngine.revealCell(IndicatorPosition.z, -IndicatorPosition.x);
+                            gameEngine.checkCell(IndicatorPosition.z, -IndicatorPosition.x);
                         }
                     }
                     
