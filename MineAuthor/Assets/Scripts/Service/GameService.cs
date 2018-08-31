@@ -34,7 +34,7 @@ namespace Assets.Scripts.Service
         // -3 => cell is an exploded mine 
         public int checkCell(float x, float y)
         {
-            int cellValue = this.grid.CellsArray[(int)x][(int)y].CellValue;  
+            int cellValue = this.grid.CellsArray[(int)x][(int)y].CellValue;
             if (cellValue == -1)
             {
                 this.grid.CellsArray[(int)x][(int)y].explode();
@@ -43,6 +43,15 @@ namespace Assets.Scripts.Service
             return cellValue;
         }
 
+        public int checkMine(float x, float y)
+        {
+            int cellValue = this.grid.CellsArray[(int)x][(int)y].CellValue;
+            if (cellValue == -1)
+            {
+                this.grid.CellsArray[(int)x][(int)y].explode();
+            }
+            return cellValue;
+        }
         public CellState getCellState(float x, float y)
         {
             return this.grid.CellsArray[(int)x][(int)y].CellState;

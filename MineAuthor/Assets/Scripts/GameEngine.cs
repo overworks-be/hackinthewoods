@@ -49,7 +49,7 @@ public class GameEngine : MonoBehaviour
         targetZone.Add(new Coordinates(12, 32));
 
         this.gameService = new GameService();
-        gameService.startNewGame(20, 45, mineList, new List<Coordinates>(), targetZone, 32);
+        gameService.startNewGame(20, 45, mineList, new List<Coordinates>(), targetZone, 0);
 
 
  
@@ -95,6 +95,11 @@ public class GameEngine : MonoBehaviour
     public int checkCell(float x, float y)
     {
         return this.gameService.checkCell(x, y);
+    }
+
+    public int checkMine(float x, float y)
+    {
+        return this.gameService.checkMine(x, y);
     }
 
     public bool isCellRevealed(float x, float y)
