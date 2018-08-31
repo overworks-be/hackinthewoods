@@ -130,6 +130,11 @@ public class GameEngine : MonoBehaviour
         return this.gameService.checkCell(x, y);
     }
 
+    public int checkMine(float x, float y)
+    {
+        return this.gameService.checkMine(x, y);
+    }
+
     public bool isCellRevealed(float x, float y)
     {
         return this.getCellState(x, y) == CellState.Revealed;

@@ -10,12 +10,13 @@ public class LaserController : MonoBehaviour {
     public Transform ParentTransform;
     public GameObject IndicatorPrefab;
     public GameObject ExplosionPrefab;
+    public GameObject TracePrefab;
     public bool SelectWasPressed = false;
     public MixedRealityTeleport teleport;
     AudioSource clicsound;
 
     public GameEngine gameEngine;
-    public Projector projector;
+    //public Projector projector;
 
     // Use this for initialization
     void Start () {
@@ -53,18 +54,16 @@ public class LaserController : MonoBehaviour {
         Vector3 Position = getCellCenterPosition(Camera.main.transform.position);
         //projector.transform.position = new Vector3(Position.x-0.5f, Position.y-1.0f, Position.z-0.5f);
 
-        int minev = getCellMineNeighbourValue(Position);
-        bool vis = getCellIndicatorVisibility(Position);
-        if (!vis)
+        int minev = getCellMineValue(Position);
+        if (minev == -1)
         {
-            if (minev == -1)
-            {
+            GameObject explosion = Instantiate(ExplosionPrefab, Vector3.zero, Quaternion.identity);
+            explosion.transform.position = Position;
 
-                GameObject explosion = Instantiate(ExplosionPrefab, Vector3.zero, Quaternion.identity);
-                explosion.transform.position = Position;
+            GameObject trace = Instantiate(TracePrefab, Vector3.zero, Quaternion.identity);
+            trace.transform.position = Position;
 
-                //teleport.SetWorldPosition(new Vector3(teleport.transform.position.x + 3, teleport.transform.position.y, teleport.transform.position.z));
-            }
+            teleport.SetWorldPosition(new Vector3(teleport.transform.position.x + 3, teleport.transform.position.y, teleport.transform.position.z));
         }
 
             foreach (var interactionSourceState in interactionSourceStates)
@@ -88,22 +87,27 @@ public class LaserController : MonoBehaviour {
                 if (terrainCollider.Raycast(ray, out raycastHit, 10))
                 {
                     var cursorPos = raycastHit.point;
-                    Debug.Log("Collision X = " + Mathf.Round(cursorPos.x) + " Z = " + Mathf.Round(cursorPos.z));
+                    //Debug.Log("Collision X = " + Mathf.Round(cursorPos.x) + " Z = " + Mathf.Round(cursorPos.z));
 
                     
                     IndicatorPosition = getCellCenterPosition(cursorPos);
                     Debug.Log("Centres = " + IndicatorPosition);
 
-                    int minevalue = getCellMineNeighbourValue(IndicatorPosition);
                     bool visible = getCellIndicatorVisibility(IndicatorPosition);
+                    int minevalue = getCellMineNeighbourValue(IndicatorPosition);
+                    Debug.Log("Nb voisins = " + minevalue);
+                    
+                    Debug.Log("Visible = " + visible);
                     if (!visible)
                     {
                         if (minevalue == -1)
                         {
-
                             GameObject explosion = Instantiate(ExplosionPrefab, Vector3.zero, Quaternion.identity);
                             explosion.transform.position = IndicatorPosition;
-                            
+
+                            GameObject trace = Instantiate(TracePrefab, Vector3.zero, Quaternion.identity);
+                            trace.transform.position = Position;
+
                             teleport.SetWorldPosition(new Vector3(teleport.transform.position.x+3, teleport.transform.position.y, teleport.transform.position.z));
                         }
                         else if (minevalue == -2)
@@ -111,7 +115,7 @@ public class LaserController : MonoBehaviour {
                             //Application.LoadLevel(Application.loadedLevel);
                             SceneManager.LoadScene("WinScene");
                         }
-                        else
+                        else if (minevalue != -3)
                         {
                             clicsound.Play();
 
@@ -143,6 +147,11 @@ public class LaserController : MonoBehaviour {
     public int getCellMineNeighbourValue(Vector3 initialPosition)
     {
         return gameEngine.checkCell(initialPosition.z, -initialPosition.x);
+    }
+
+    public int getCellMineValue(Vector3 initialPosition)
+    {
+        return gameEngine.checkMine(initialPosition.z, -initialPosition.x);
     }
 
     public bool getCellIndicatorVisibility(Vector3 initialPosition)
