@@ -48,11 +48,44 @@ public class GameEngine : MonoBehaviour
         targetZone.Add(new Coordinates(10, 32));
         targetZone.Add(new Coordinates(11, 32));
 
+        List<Coordinates> safeZone = new List<Coordinates>();
+        safeZone.Add(new Coordinates(9,8));
+        safeZone.Add(new Coordinates(8,8));
+        safeZone.Add(new Coordinates(7,8));
+        safeZone.Add(new Coordinates(6,8));
+        safeZone.Add(new Coordinates(2,2));
+        safeZone.Add(new Coordinates(1,1));
+        safeZone.Add(new Coordinates(2,1));
+        safeZone.Add(new Coordinates(15,1));
+        safeZone.Add(new Coordinates(12,12));
+        safeZone.Add(new Coordinates(13,12));
+        safeZone.Add(new Coordinates(2,16));
+        safeZone.Add(new Coordinates(0,14));
+        safeZone.Add(new Coordinates(0,15));
+        safeZone.Add(new Coordinates(0,20));
+        safeZone.Add(new Coordinates(0,21));
+        safeZone.Add(new Coordinates(0,24));
+        safeZone.Add(new Coordinates(0,23));
+        safeZone.Add(new Coordinates(7,30));
+        safeZone.Add(new Coordinates(4,38));
+        safeZone.Add(new Coordinates(0,31));
+        safeZone.Add(new Coordinates(0,35));
+        safeZone.Add(new Coordinates(14,39));
+        safeZone.Add(new Coordinates(12,42));
+        safeZone.Add(new Coordinates(9, 32));
+        safeZone.Add(new Coordinates(12, 32));
+        safeZone.Add(new Coordinates(9, 31));
+        safeZone.Add(new Coordinates(10, 31));
+        safeZone.Add(new Coordinates(11, 31));
+        safeZone.Add(new Coordinates(12, 31));
+        safeZone.Add(new Coordinates(9, 33));
+        safeZone.Add(new Coordinates(10, 33));
+        safeZone.Add(new Coordinates(11, 33));
+        safeZone.Add(new Coordinates(12, 33));
+
         this.gameService = new GameService();
-        gameService.startNewGame(20, 45, mineList, new List<Coordinates>(), targetZone, 0);
+        gameService.startNewGame(20, 45, mineList, safeZone, targetZone, 0);
 
-
- 
         Debug.Log(gameService.Grid.ToString());
         initTimer(180);
         timerOn = true;
