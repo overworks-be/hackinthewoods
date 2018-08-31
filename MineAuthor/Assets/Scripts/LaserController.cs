@@ -49,6 +49,8 @@ public class LaserController : MonoBehaviour {
     {
         var interactionSourceStates = InteractionManager.GetCurrentReading();
 
+        
+
         //Debug.Log("Position X = " + Mathf.Round(teleport.transform.position.x) + " Z = " + Mathf.Round(teleport.transform.position.z));
         //Vector3 Position = getCellCenterPosition(teleport.transform.position);
         Vector3 Position = getCellCenterPosition(Camera.main.transform.position);
@@ -57,16 +59,19 @@ public class LaserController : MonoBehaviour {
         int minev = getCellMineValue(Position);
         if (minev == -1)
         {
+            GameObject trace = Instantiate(TracePrefab, Vector3.zero, Quaternion.identity);
+            trace.transform.Rotate(new Vector3(90.0f, 0.0f, 0.0f));
+            trace.transform.position = new Vector3(Position.x, Position.y + 0.1f, Position.z);
+
             GameObject explosion = Instantiate(ExplosionPrefab, Vector3.zero, Quaternion.identity);
             explosion.transform.position = Position;
 
-            GameObject trace = Instantiate(TracePrefab, Vector3.zero, Quaternion.identity);
-            trace.transform.position = Position;
+            
 
             teleport.SetWorldPosition(new Vector3(teleport.transform.position.x + 3, teleport.transform.position.y, teleport.transform.position.z));
         }
 
-            foreach (var interactionSourceState in interactionSourceStates)
+        foreach (var interactionSourceState in interactionSourceStates)
         {
             Vector3 newPosition, IndicatorPosition;
             Quaternion newRotation;
@@ -106,13 +111,15 @@ public class LaserController : MonoBehaviour {
                             explosion.transform.position = IndicatorPosition;
 
                             GameObject trace = Instantiate(TracePrefab, Vector3.zero, Quaternion.identity);
-                            trace.transform.position = Position;
+                            trace.transform.Rotate(new Vector3(90.0f, 0.0f, 0.0f));
+                            trace.transform.position = new Vector3(IndicatorPosition.x, IndicatorPosition.y+0.1f, IndicatorPosition.z);
 
                             teleport.SetWorldPosition(new Vector3(teleport.transform.position.x+3, teleport.transform.position.y, teleport.transform.position.z));
                         }
                         else if (minevalue == -2)
                         {
                             //Application.LoadLevel(Application.loadedLevel);
+                            teleport.SetWorldPosition(new Vector3(-1.62f, 3.0f, 9.01f));
                             SceneManager.LoadScene("WinScene");
                         }
                         else if (minevalue != -3)
