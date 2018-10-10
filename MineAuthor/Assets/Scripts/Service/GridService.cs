@@ -53,7 +53,7 @@ namespace Assets.Scripts.Service
 
         public List<Coordinates> getAdjacentCell(int gridWidth, int gridHeight, Coordinates centerCell)
         {
-            Console.WriteLine("center: " + centerCell.X + "," + centerCell.Y);
+            //Console.WriteLine("center: " + centerCell.X + "," + centerCell.Y);
 
 
             bool noUp = false, noDown = false, noLeft = false, noRight = false;
@@ -80,7 +80,7 @@ namespace Assets.Scripts.Service
 
             for (int i = 0; i < coordinateList.Count; i++)
             {
-                Console.WriteLine("adjacent: " + coordinateList[i].X + "," + coordinateList[i].Y);
+                //Console.WriteLine("adjacent: " + coordinateList[i].X + "," + coordinateList[i].Y);
             }
 
 

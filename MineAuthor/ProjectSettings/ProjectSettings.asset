@@ -570,14 +570,14 @@ PlayerSettings:
   m_MobileRenderingPath: 1
   metroPackageName: MineAuthor
   metroPackageVersion: 1.0.0.0
-  metroCertificatePath: 
+  metroCertificatePath: Assets\WSATestCertificate.pfx
   metroCertificatePassword: 
-  metroCertificateSubject: 
-  metroCertificateIssuer: 
-  metroCertificateNotAfter: 0000000000000000
+  metroCertificateSubject: DefaultCompany
+  metroCertificateIssuer: DefaultCompany
+  metroCertificateNotAfter: 80d3145e5279d501
   metroApplicationDescription: MineAuthor
   wsaImages: {}
-  metroTileShortName: 
+  metroTileShortName: MineAuthor
   metroCommandLineArgsFile: 
   metroTileShowName: 0
   metroMediumTileShowName: 0

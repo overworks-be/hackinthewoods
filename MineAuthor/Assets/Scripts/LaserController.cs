@@ -14,8 +14,10 @@ public class LaserController : MonoBehaviour {
     public bool SelectWasPressed = false;
     public MixedRealityTeleport teleport;
     AudioSource clicsound;
-
+    private float timer;
+    private bool timerOn;
     public GameEngine gameEngine;
+    private List<GameObject> instList;
     //public Projector projector;
 
     // Use this for initialization
@@ -24,6 +26,8 @@ public class LaserController : MonoBehaviour {
 
         clicsound = GetComponent<AudioSource>();
         teleport.SetWorldPosition(new Vector3(-1.62f,3.0f,9.01f));
+        instList = new List<GameObject>();
+        timerOn = false;
         //projector = GetComponent<Projector>();
     }
 
@@ -47,6 +51,16 @@ public class LaserController : MonoBehaviour {
 
     void Update()
     {
+        if (timerOn)
+        {
+            timer -= Time.deltaTime;
+            if (timer<0)
+            {
+                timerOn = false;
+                teleport.SetWorldPosition(new Vector3(-1.62f, 3.0f, 9.01f));
+            }
+        }
+
         var interactionSourceStates = InteractionManager.GetCurrentReading();
 
         
@@ -59,14 +73,15 @@ public class LaserController : MonoBehaviour {
         int minev = getCellMineValue(Position);
         if (minev == -1)
         {
-            GameObject trace = Instantiate(TracePrefab, Vector3.zero, Quaternion.identity);
-            trace.transform.Rotate(new Vector3(90.0f, 0.0f, 0.0f));
-            trace.transform.position = new Vector3(Position.x, Position.y + 0.1f, Position.z);
+            //GameObject trace = Instantiate(TracePrefab, Vector3.zero, Quaternion.identity);
+            //trace.transform.Rotate(new Vector3(90.0f, 0.0f, 0.0f));
+            //trace.transform.position = new Vector3(Position.x, Position.y + 0.1f, Position.z);
 
             GameObject explosion = Instantiate(ExplosionPrefab, Vector3.zero, Quaternion.identity);
             explosion.transform.position = Position;
+            instList.Add(explosion);
 
-            
+
 
             teleport.SetWorldPosition(new Vector3(teleport.transform.position.x + 3, teleport.transform.position.y, teleport.transform.position.z));
         }
@@ -109,18 +124,30 @@ public class LaserController : MonoBehaviour {
                         {
                             GameObject explosion = Instantiate(ExplosionPrefab, Vector3.zero, Quaternion.identity);
                             explosion.transform.position = IndicatorPosition;
+                            instList.Add(explosion);
 
                             GameObject trace = Instantiate(TracePrefab, Vector3.zero, Quaternion.identity);
                             trace.transform.Rotate(new Vector3(90.0f, 0.0f, 0.0f));
                             trace.transform.position = new Vector3(IndicatorPosition.x, IndicatorPosition.y+0.1f, IndicatorPosition.z);
+                            instList.Add(trace);
 
                             teleport.SetWorldPosition(new Vector3(teleport.transform.position.x+3, teleport.transform.position.y, teleport.transform.position.z));
                         }
                         else if (minevalue == -2)
                         {
                             //Application.LoadLevel(Application.loadedLevel);
-                            teleport.SetWorldPosition(new Vector3(-1.62f, 3.0f, 9.01f));
-                            SceneManager.LoadScene("WinScene");
+                            teleport.SetWorldPosition(new Vector3(8.0f, 8.0f, 9.01f));
+                            
+                            gameEngine.ReinitGame();
+                            
+                            for (int i = 0; i < instList.Count; i++)
+                            {
+                                GameObject g = instList[i];
+                                Destroy(g);
+                            }
+                            timer = 5;
+                            timerOn = true;
+                            //SceneManager.LoadScene("WinScene");
                         }
                         else if (minevalue != -3)
                         {
@@ -130,6 +157,7 @@ public class LaserController : MonoBehaviour {
                             MineTextindicator.transform.GetComponent<TextMesh>().transform.Rotate(new Vector3(90.0f, -90.0f, 0.0f));
                             MineTextindicator.transform.GetComponent<TextMesh>().transform.position = IndicatorPosition;
                             MineTextindicator.transform.GetComponent<TextMesh>().text = minevalue.ToString();
+                            instList.Add(MineTextindicator);
 
                             gameEngine.checkCell(IndicatorPosition.z, -IndicatorPosition.x);
                         }
@@ -193,7 +221,7 @@ public class LaserController : MonoBehaviour {
 
                     GameObject MineTextindicator = Instantiate(IndicatorPrefab, Vector3.zero, Quaternion.identity);
                     MineTextindicator.transform.GetComponent<TextMesh>().text = "0";
-
+                    instList.Add(MineTextindicator);
                 }
             }
         }

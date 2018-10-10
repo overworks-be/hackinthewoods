@@ -18,13 +18,15 @@ public class GameEngine : MonoBehaviour
     public Vector2 cellSize;
     private float timer;
     private bool timerOn;
-
+    private List<Coordinates> mineList;
+    private List<Coordinates> targetZone;
+    private List<Coordinates> safeZone;
 
     // Use this for initialization
     void Start()
     {
 
-        List<Coordinates> mineList = new List<Coordinates>();
+        mineList = new List<Coordinates>();
         mineList.Add(new Coordinates(6,4));
         mineList.Add(new Coordinates(9, 7));
         mineList.Add(new Coordinates(13, 2));
@@ -44,11 +46,11 @@ public class GameEngine : MonoBehaviour
         mineList.Add(new Coordinates(8, 30));
         mineList.Add(new Coordinates(6,32 ));
 
-        List<Coordinates> targetZone = new List<Coordinates>();
+        targetZone = new List<Coordinates>();
         targetZone.Add(new Coordinates(10, 32));
         targetZone.Add(new Coordinates(11, 32));
 
-        List<Coordinates> safeZone = new List<Coordinates>();
+        safeZone = new List<Coordinates>();
         safeZone.Add(new Coordinates(9,8));
         safeZone.Add(new Coordinates(8,8));
         safeZone.Add(new Coordinates(7,8));
@@ -140,4 +142,8 @@ public class GameEngine : MonoBehaviour
         return this.getCellState(x, y) == CellState.Revealed;
     }
 
+    public void ReinitGame()
+    {
+        this.gameService.startNewGame(20, 45, mineList, safeZone, targetZone, 0);
+    }
 }
